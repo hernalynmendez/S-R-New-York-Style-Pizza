@@ -1,0 +1,407 @@
+# Food Ordering System - Testing Guide
+
+## SYSTEM TESTING CHECKLIST
+
+### 1. Database Connection Test
+- [ ] Database created successfully
+- [ ] All tables created
+- [ ] Sample data imported
+- [ ] No connection errors
+
+### 2. User Registration Test
+1. Navigate to: http://localhost/FoodSystem/user/register.php
+2. Test Case 1:
+   - [ ] Fill all fields correctly
+   - [ ] Click Register
+   - [ ] Redirected to login page
+   - [ ] Success message displayed
+
+3. Test Case 2:
+   - [ ] Try registering with existing username
+   - [ ] Error message displayed
+
+4. Test Case 3:
+   - [ ] Try registering with invalid email
+   - [ ] Error message displayed
+
+5. Test Case 4:
+   - [ ] Try registering with short password
+   - [ ] Error message displayed
+
+### 3. User Login Test
+1. Navigate to: http://localhost/FoodSystem/user/login.php
+2. Test Case 1:
+   - [ ] Login with correct credentials
+   - [ ] Redirected to menu page
+   - [ ] Session created
+
+3. Test Case 2:
+   - [ ] Try login with wrong password
+   - [ ] Error message displayed
+
+4. Test Case 3:
+   - [ ] Try login with non-existent user
+   - [ ] Error message displayed
+
+### 4. Menu Browsing Test
+1. Navigate to: http://localhost/FoodSystem/user/menu.php
+2. Test Case 1:
+   - [ ] All food items displayed
+   - [ ] Images show correctly
+   - [ ] Prices display correctly
+
+3. Test Case 2:
+   - [ ] Filter by category works
+   - [ ] Only items from category shown
+
+4. Test Case 3:
+   - [ ] Search functionality works
+   - [ ] Correct items appear in results
+
+5. Test Case 4:
+   - [ ] Vegetarian badge displays for veg items
+   - [ ] Non-veg items don't show badge
+
+### 5. Shopping Cart Test
+1. From menu page:
+   - [ ] Add item to cart
+   - [ ] Cart count updates in navbar
+   
+2. Navigate to: http://localhost/FoodSystem/user/cart.php
+   - [ ] Added items display correctly
+   - [ ] Quantity shows correctly
+   - [ ] Price calculations correct
+   - [ ] Total is accurate
+
+3. Test quantity update:
+   - [ ] Change quantity
+   - [ ] Click update button
+   - [ ] Quantity updates
+   - [ ] Total recalculates
+
+4. Test item removal:
+   - [ ] Remove item
+   - [ ] Item disappears from cart
+   - [ ] Total updates
+
+### 6. Checkout Test
+1. Navigate to: http://localhost/FoodSystem/user/checkout.php
+2. Test Case 1:
+   - [ ] All order items display
+   - [ ] Total amount shows correctly
+   - [ ] Delivery fee included
+
+3. Test Case 2:
+   - [ ] Fill delivery address
+   - [ ] Fill city name
+   - [ ] Select payment method
+   - [ ] Click "Place Order"
+
+4. Test Case 3:
+   - [ ] Try checkout without address
+   - [ ] Error message displayed
+
+### 7. Order Confirmation Test
+1. After successful order placement:
+   - [ ] Redirected to success page
+   - [ ] Order number displayed
+   - [ ] Total amount displayed
+   - [ ] Estimated delivery time shown
+
+2. Test Case 2:
+   - [ ] Click "View My Orders"
+   - [ ] Order appears in list
+   - [ ] Status shows "pending"
+
+### 8. Order Management Test
+1. Navigate to: http://localhost/FoodSystem/user/orders.php
+   - [ ] All user orders displayed
+   - [ ] Order numbers correct
+   - [ ] Amounts correct
+   - [ ] Status badges display correctly
+
+2. Test order details:
+   - [ ] Click "View Details"
+   - [ ] All order information displays
+   - [ ] Items list is complete
+   - [ ] Amounts match
+
+3. Test order cancellation:
+   - [ ] Click "Cancel Order" (if pending)
+   - [ ] Confirmation dialog appears
+   - [ ] Order status updates to cancelled
+
+### 9. User Profile Test
+1. Click profile dropdown → "My Profile"
+   - [ ] Current profile information displays
+   - [ ] Form fields are editable
+
+2. Update profile:
+   - [ ] Change first name
+   - [ ] Change last name
+   - [ ] Change phone
+   - [ ] Click "Save Changes"
+   - [ ] Success message displayed
+   - [ ] Changes saved
+
+3. Update address:
+   - [ ] Fill address fields
+   - [ ] Click "Save Changes"
+   - [ ] Address saved correctly
+
+4. Upload profile picture:
+   - [ ] Select image file
+   - [ ] Upload completes
+   - [ ] Success message displayed
+
+### 10. Password Change Test
+1. Click profile dropdown → "Change Password"
+   - [ ] Password form displays
+
+2. Test Case 1:
+   - [ ] Enter wrong old password
+   - [ ] Error message displayed
+
+3. Test Case 2:
+   - [ ] Enter old password correctly
+   - [ ] Enter new password
+   - [ ] Confirm password
+   - [ ] Click "Change Password"
+   - [ ] Success message displayed
+
+### 11. Admin Login Test
+1. Navigate to: http://localhost/FoodSystem/admin/dashboard.php
+2. You will be redirected to login page
+   - [ ] Login with admin credentials
+   - [ ] Redirected to admin dashboard
+
+### 12. Admin Dashboard Test
+1. Admin dashboard displays:
+   - [ ] Total users count
+   - [ ] Total orders count
+   - [ ] Total revenue
+   - [ ] Pending orders count
+   - [ ] Recent orders table
+
+2. Test Case 2:
+   - [ ] Statistics are accurate
+   - [ ] Numbers update correctly
+
+### 13. Food Management Test
+1. Navigate to: http://localhost/FoodSystem/admin/manage_food.php
+2. Test Case 1 - Add Food:
+   - [ ] Select category
+   - [ ] Enter food name
+   - [ ] Enter description
+   - [ ] Enter price
+   - [ ] Upload image
+   - [ ] Click "Add Food Item"
+   - [ ] Success message displayed
+   - [ ] Item appears in list
+
+3. Test Case 2 - Edit Food:
+   - [ ] Click "Edit" button
+   - [ ] Current data displays
+   - [ ] Update data
+   - [ ] Click "Update"
+   - [ ] Success message displayed
+
+4. Test Case 3 - Delete Food:
+   - [ ] Click "Delete" button
+   - [ ] Confirmation dialog appears
+   - [ ] Click confirm
+   - [ ] Item removed from list
+
+### 14. User Management Test
+1. Navigate to: http://localhost/FoodSystem/admin/manage_users.php
+   - [ ] All users displayed
+   - [ ] User information correct
+   - [ ] Status badges display correctly
+
+2. View user details:
+   - [ ] Click "View" button
+   - [ ] User information displays
+   - [ ] Statistics shown
+
+3. Deactivate user:
+   - [ ] Click "Deactivate" button
+   - [ ] Confirmation dialog appears
+   - [ ] User status changes to "Inactive"
+
+4. Activate user:
+   - [ ] Click "Activate" button
+   - [ ] User status changes to "Active"
+
+### 15. Order Management Test (Admin)
+1. Navigate to: http://localhost/FoodSystem/admin/manage_orders.php
+   - [ ] All orders displayed
+   - [ ] Order information correct
+   - [ ] Status badges display correctly
+
+2. View order:
+   - [ ] Click order link
+   - [ ] Order details display
+   - [ ] Items listed correctly
+
+3. Update order status:
+   - [ ] Select new status from dropdown
+   - [ ] Click "Update Status"
+   - [ ] Status changes
+   - [ ] Success message displayed
+
+4. Update payment status:
+   - [ ] Select payment status
+   - [ ] Click "Update Payment"
+   - [ ] Payment status updates
+
+### 16. Category Management Test
+1. Navigate to: http://localhost/FoodSystem/admin/manage_categories.php
+   - [ ] All categories displayed
+
+2. Add category:
+   - [ ] Enter category name
+   - [ ] Enter description
+   - [ ] Click "Add Category"
+   - [ ] Category appears in list
+
+3. Edit category:
+   - [ ] Click "Edit"
+   - [ ] Update information
+   - [ ] Click "Update"
+   - [ ] Changes saved
+
+4. Delete category:
+   - [ ] Click "Delete"
+   - [ ] Confirm deletion
+   - [ ] Category removed
+
+### 17. Session Management Test
+1. Login to user account
+2. Open another browser tab
+   - [ ] Still logged in
+   - [ ] Session maintained
+
+3. Click Logout
+   - [ ] Logged out successfully
+   - [ ] Redirected to home page
+
+4. Try accessing protected page:
+   - [ ] Redirected to login
+
+### 18. Security Test
+1. SQL Injection Test:
+   - [ ] Try entering SQL in search box
+   - [ ] No errors or data leaks
+
+2. XSS Test:
+   - [ ] Try entering script tags
+   - [ ] Properly escaped/displayed
+
+3. CSRF Test:
+   - [ ] Forms work correctly
+   - [ ] No security warnings
+
+### 19. Responsive Design Test
+1. Open on desktop (1920px)
+   - [ ] Layout correct
+   - [ ] All elements visible
+
+2. Open on tablet (768px)
+   - [ ] Layout adjusts correctly
+   - [ ] Navigation responsive
+   - [ ] Cards stack properly
+
+3. Open on mobile (375px)
+   - [ ] Layout mobile-friendly
+   - [ ] Navbar toggles
+   - [ ] Content readable
+   - [ ] Forms usable
+
+### 20. Performance Test
+1. Page Load Times:
+   - [ ] Home page: < 2 seconds
+   - [ ] Menu page: < 2 seconds
+   - [ ] Cart page: < 1 second
+
+2. Database Queries:
+   - [ ] No timeout errors
+   - [ ] Results load quickly
+
+---
+
+## SAMPLE TEST DATA
+
+### Test User 1 (Registered after setup)
+- Username: testuser
+- Password: test123
+- Email: testuser@example.com
+
+### Test User 2 (Admin)
+- Username: admin
+- Password: admin123
+- Email: admin@foodsystem.com
+
+---
+
+## TESTING REPORT TEMPLATE
+
+```
+Test Date: _______________
+Tester Name: _______________
+System: Food Ordering System v1.0
+
+Passed: _____ / 100+
+Failed: _____
+Skipped: _____
+
+Critical Issues: _____________________
+Major Issues: _____________________
+Minor Issues: _____________________
+
+Overall Status: [ ] PASS [ ] FAIL [ ] CONDITIONAL
+
+Notes:
+_________________________________
+_________________________________
+_________________________________
+```
+
+---
+
+## COMMON ISSUES & FIXES
+
+### Issue: "Cannot Connect to Database"
+- [ ] Check MySQL is running
+- [ ] Verify database name in config.php
+- [ ] Check username and password
+
+### Issue: "404 - Page Not Found"
+- [ ] Check file names match URLs
+- [ ] Verify files in correct directories
+- [ ] Clear browser cache
+
+### Issue: "Permission Denied" Upload
+- [ ] Check folder permissions
+- [ ] Ensure uploads/ directory exists
+- [ ] Set write permissions
+
+### Issue: "Session Lost"
+- [ ] Check PHP session settings
+- [ ] Verify session timeout value
+- [ ] Check browser cookie settings
+
+---
+
+## AUTOMATED TESTING RECOMMENDATIONS
+
+Consider implementing:
+- Unit tests for functions
+- Integration tests for workflows
+- Load testing for performance
+- Security testing tools
+
+---
+
+**Testing Complete!**
+
+If all tests pass, your Food Ordering System is ready for use.

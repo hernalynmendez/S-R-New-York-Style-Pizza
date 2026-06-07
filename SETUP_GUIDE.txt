@@ -1,0 +1,185 @@
+# Food Ordering System - SETUP GUIDE
+
+## Quick Setup Instructions
+
+### Step 1: Place Files in WAMP
+- Extract all files to: `C:\wamp64\www\FoodSystem\`
+
+### Step 2: Create Database
+1. Open phpMyAdmin: http://localhost/phpmyadmin
+2. Create database named: `food_ordering_system`
+3. Go to Import tab
+4. Select file: `database/food_ordering_system.sql`
+5. Click "Import"
+
+### Step 3: Configure Database (Optional)
+If your MySQL has a password, edit `includes/config.php`:
+```php
+define('DB_PASSWORD', 'your_password');
+```
+
+### Step 4: Set Upload Permissions
+Create these directories (or ensure they're writable):
+- `uploads/food/`
+- `uploads/profiles/`
+
+Windows: Right-click → Properties → Security → Edit Permissions
+
+### Step 5: Access Application
+
+Open browser and go to: http://localhost/FoodSystem/
+
+## DEFAULT CREDENTIALS
+
+**Admin Panel:**
+- URL: http://localhost/FoodSystem/admin/dashboard.php
+- Username: admin
+- Password: admin123
+
+**Important:** Change admin password immediately after first login!
+
+## TESTING THE SYSTEM
+
+### Test User Registration
+1. Click "Register" on home page
+2. Fill in form with sample data
+3. Click "Register" button
+
+### Test User Login
+1. Click "Login" on home page
+2. Enter credentials
+3. Click "Login" button
+
+### Test Admin Panel
+1. Login with admin credentials
+2. Navigate to Admin Dashboard
+3. Test each section:
+   - Dashboard (view statistics)
+   - Manage Food Items (CRUD)
+   - Manage Users
+   - Manage Orders
+   - Manage Categories
+
+### Test Shopping Flow
+1. Login as regular user
+2. Browse menu items
+3. Add items to cart
+4. View cart
+5. Proceed to checkout
+6. Place order
+7. View order status
+
+## TROUBLESHOOTING
+
+### "Cannot Connect to Database"
+- Check phpMyAdmin is running
+- Verify credentials in `includes/config.php`
+- Ensure MySQL server is started in WAMP
+
+### "404 Not Found" errors
+- Ensure all files are in `C:\wamp64\www\FoodSystem\`
+- Check file names match exactly (case-sensitive)
+
+### "Permission Denied" on uploads
+- Right-click folder → Properties → Security → Advanced
+- Add write permissions for NETWORK SERVICE user
+
+### Blank page or PHP errors
+- Check PHP error logs in WAMP
+- Enable error reporting in `includes/config.php`:
+```php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+```
+
+## FILE STRUCTURE
+
+```
+FoodSystem/
+├── admin/                    # Admin pages
+├── user/                     # User pages
+├── includes/                 # PHP functions
+├── css/                      # Stylesheets
+├── js/                       # JavaScript
+├── database/                 # SQL schema
+├── uploads/                  # User uploads
+├── index.php                 # Home page
+├── .htaccess                 # Server config
+├── README.md                 # Documentation
+└── SETUP_GUIDE.txt          # This file
+```
+
+## KEY FILES
+
+- `includes/config.php` - Database configuration
+- `includes/auth.php` - User authentication
+- `includes/functions.php` - Utility functions
+- `includes/admin.php` - Admin functions
+- `database/food_ordering_system.sql` - Database schema
+- `css/style.css` - Styling
+- `js/script.js` - JavaScript functionality
+
+## FEATURE SUMMARY
+
+✓ User Registration & Login
+✓ Food Menu Browsing
+✓ Search & Filter
+✓ Shopping Cart
+✓ Order Placement
+✓ Order Tracking
+✓ User Profile Management
+✓ Admin Dashboard
+✓ Food Item Management
+✓ User Management
+✓ Order Management
+✓ Category Management
+✓ Payment Status Updates
+✓ Security Features
+✓ Responsive Design
+
+## SECURITY NOTES
+
+- All passwords are hashed with bcrypt
+- SQL injection prevented with prepared statements
+- Sessions managed securely
+- File uploads validated
+- CSRF protection in place
+- Input sanitization active
+
+## PRODUCTION CHECKLIST
+
+Before deploying to production:
+- [ ] Change admin password
+- [ ] Update database credentials
+- [ ] Enable HTTPS in .htaccess
+- [ ] Set up proper error logging
+- [ ] Configure email notifications
+- [ ] Set up payment gateway
+- [ ] Enable backups
+- [ ] Update security headers
+- [ ] Test all functionality
+- [ ] Performance testing
+
+## SUPPORT & HELP
+
+Refer to README.md for detailed documentation
+All code includes comments for easy understanding
+Database schema is well-documented
+Functions have clear purpose and usage
+
+## NEXT STEPS
+
+1. Login with admin account
+2. Add food categories
+3. Upload food items with images
+4. Test complete ordering flow
+5. Customize branding/colors
+6. Add your contact information
+7. Configure payment methods
+8. Deploy to production
+
+---
+
+Created: May 2026
+Version: 1.0
+Status: Production Ready

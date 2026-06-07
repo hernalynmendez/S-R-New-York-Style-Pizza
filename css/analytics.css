@@ -1,0 +1,24 @@
+/* Revenue Analytics - Premium Dark UI */
+:root{--bg:#0B0F19;--card:#0f1720;--muted:rgba(255,255,255,0.6);--accent:#3B82F6;--success:#10B981;--glass:rgba(255,255,255,0.04)}
+body.analytics {background: var(--bg) !important;}
+.analytics-wrap{padding:28px;max-width:1400px;margin:0 auto}
+.analytics-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.analytics-title{font-size:28px;font-weight:700;color:#fff}
+.analytics-meta{color:var(--muted);font-size:0.9rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.kpi-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(2,6,23,0.6);}
+.kpi-value{font-size:1.25rem;font-weight:700;color:#fff}
+.kpi-label{font-size:0.85rem;color:var(--muted)}
+.kpi-trend{float:right;background:rgba(16,185,129,0.12);color:var(--success);padding:4px 8px;border-radius:999px;font-weight:600}
+.main-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.chart-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:18px;border:1px solid rgba(255,255,255,0.04);min-height:360px;position:relative}
+.peak-card{position:absolute;right:18px;top:18px;background:linear-gradient(90deg,#ff9f43,#ff6b6b);color:#111;padding:10px 12px;border-radius:12px;box-shadow:0 8px 28px rgba(255,107,107,0.12);display:flex;gap:8px;align-items:center}
+.compare-legend{display:flex;gap:12px;align-items:center;margin-top:10px}
+.legend-item{display:flex;gap:8px;align-items:center;color:var(--muted)}
+.legend-swatch{width:12px;height:6px;border-radius:4px}
+.bottom-row{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-top:16px}
+.donut-card,.insight-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:16px;border:1px solid rgba(255,255,255,0.04)}
+.insight-card h5{color:#fff;margin-bottom:8px}
+.insight-list{color:var(--muted);font-size:0.95rem}
+/* Responsive */
+@media(max-width:992px){.kpi-row{grid-template-columns:repeat(2,1fr)}.main-grid{grid-template-columns:1fr}.bottom-row{grid-template-columns:1fr}}
