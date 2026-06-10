@@ -5,12 +5,13 @@ require_once '../includes/functions.php';
 require_once '../includes/admin.php';
 
 requireAdmin();
-checkSessionTimeout();
 
 $stats = getDashboardStats();
 $low_stock_items = getLowStockItems(5);
 $top_products = getTopProducts(5);
 $orders = getAllOrders();
+$recent_activity = getRecentActivity(5);
+$business_activity = getRecentBusinessActivity(10);
 
 ?>
 <?php require_once '../includes/header.php'; ?>
@@ -68,6 +69,26 @@ body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial
 .action-btn:hover{transform:scale(1.06);box-shadow:0 8px 20px rgba(14,165,233,0.12);color:#fff}
 .btn.btn-icon{background:transparent;border:0;color:#9aa0a6}
 .btn.btn-icon:hover{color:#fff}
+
+/* Business Activity Feed Styles */
+.activity-feed-card{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid #1f1f1f;border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+.activity-item{display:flex;gap:12px;padding:12px;border-bottom:1px solid rgba(255,255,255,0.03);transition:background 0.2s ease}
+.activity-item:last-child{border-bottom:none}
+.activity-item:hover{background:rgba(255,255,255,0.02);border-radius:8px}
+.activity-icon{font-size:1.5rem;min-width:40px;text-align:center;line-height:1.5rem}
+.activity-content{flex:1;min-width:0}
+.activity-title{font-weight:600;color:#e6e6e6;font-size:0.95rem;margin-bottom:4px}
+.activity-detail{font-size:0.85rem;color:#9aa0a6;margin-bottom:2px}
+.activity-items{font-size:0.82rem;color:#7a7a7a;margin-top:4px;font-style:italic}
+.activity-badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:0.75rem;font-weight:600;margin-right:6px;margin-top:4px}
+.activity-time{color:#7a7a7a;font-size:0.82rem;white-space:nowrap;text-align:right}
+
+/* Activity type badges */
+.badge-new-order{background:rgba(255,107,107,0.15);color:#ff6b6b}
+.badge-payment{background:rgba(81,207,102,0.15);color:#51cf66}
+.badge-delivery{background:rgba(76,110,245,0.15);color:#4c6ef5}
+.badge-registration{background:rgba(167,139,250,0.15);color:#a78bfa}
+.badge-cancellation{background:rgba(255,107,107,0.15);color:#ff6b6b}
 
 /* Responsive: stack rows into cards on small screens */
 @media(max-width:768px){
@@ -280,14 +301,62 @@ body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial
         </div>
 
         <div style="display:flex;gap:16px">
-            <div class="card" style="flex:1">
-                <div class="section-title">Recent Activity</div>
-                <div>
-                    <div class="list-row"> <div>✓ Order #102 Completed</div><div style="color:#9aa0a6">2m</div></div>
-                    <div class="list-row"> <div>✓ New Customer Registered</div><div style="color:#9aa0a6">10m</div></div>
-                    <div class="list-row"> <div>✓ Pizza Menu Updated</div><div style="color:#9aa0a6">1h</div></div>
-                    <div class="list-row"> <div>✓ Inventory Restocked</div><div style="color:#9aa0a6">2h</div></div>
-                    <div class="list-row"> <div>✓ Order #103 Pending</div><div style="color:#9aa0a6">3h</div></div>
+            <div class="card activity-feed-card" style="flex:1">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                    <div>
+                        <div class="section-title" style="font-size:1.05rem;margin-bottom:2px">Recent Business Activity</div>
+                        <div style="color:#9aa0a6;font-size:0.9rem">Latest orders, payments, deliveries &amp; registrations</div>
+                    </div>
+                    <button id="activity-refresh" class="btn btn-sm btn-outline-light" title="Refresh" style="border:1px solid rgba(255,255,255,0.04);"><i class="fas fa-sync-alt"></i></button>
+                </div>
+
+                <div id="activity-feed">
+                    <?php if (empty($business_activity)): ?>
+                        <div style="padding:40px;text-align:center;color:#9aa0a6">
+                            <small>No recent business activity</small>
+                        </div>
+                    <?php else: foreach ($business_activity as $act): 
+                        $bg_style = "background:rgba(255,255,255,0.02);";
+                        $badge_class = 'badge-' . $act['type'];
+                    ?>
+                        <div class="activity-item" style="<?php echo $bg_style; ?>">
+                            <div class="activity-icon"><?php echo $act['icon']; ?></div>
+                            <div class="activity-content">
+                                <div class="activity-title"><?php echo $act['title']; ?></div>
+                                
+                                <?php if ($act['type'] === 'new_order'): ?>
+                                    <div class="activity-detail">📍 <strong><?php echo htmlspecialchars($act['customer_name']); ?></strong> • Order <strong>#<?php echo htmlspecialchars($act['order_number']); ?></strong></div>
+                                    <div class="activity-detail">💳 ₱<?php echo number_format($act['amount'], 2); ?> • <?php echo $act['item_count']; ?> item(s)</div>
+                                    <?php if ($act['items_summary']): ?>
+                                        <div class="activity-items"><?php echo htmlspecialchars($act['items_summary']); ?></div>
+                                    <?php endif; ?>
+                                    <span class="activity-badge <?php echo $badge_class; ?>">NEW ORDER</span>
+                                
+                                <?php elseif ($act['type'] === 'payment'): ?>
+                                    <div class="activity-detail">📍 <strong><?php echo htmlspecialchars($act['customer_name']); ?></strong> • Order <strong>#<?php echo htmlspecialchars($act['order_number']); ?></strong></div>
+                                    <div class="activity-detail">💰 ₱<?php echo number_format($act['amount'], 2); ?> via <?php echo htmlspecialchars($act['payment_method']); ?></div>
+                                    <span class="activity-badge <?php echo $badge_class; ?>">PAYMENT</span>
+                                
+                                <?php elseif ($act['type'] === 'delivery'): ?>
+                                    <div class="activity-detail">📍 <strong><?php echo htmlspecialchars($act['customer_name']); ?></strong></div>
+                                    <div class="activity-detail">Order <strong>#<?php echo htmlspecialchars($act['order_number']); ?></strong> delivered</div>
+                                    <span class="activity-badge <?php echo $badge_class; ?>">DELIVERED</span>
+                                
+                                <?php elseif ($act['type'] === 'registration'): ?>
+                                    <div class="activity-detail">👤 <strong><?php echo htmlspecialchars($act['customer_name']); ?></strong></div>
+                                    <div class="activity-detail" style="color:#51cf66;">New customer registered</div>
+                                    <span class="activity-badge <?php echo $badge_class; ?>">NEW CUSTOMER</span>
+                                
+                                <?php elseif ($act['type'] === 'cancellation'): ?>
+                                    <div class="activity-detail">📍 <strong><?php echo htmlspecialchars($act['customer_name']); ?></strong></div>
+                                    <div class="activity-detail">Order <strong>#<?php echo htmlspecialchars($act['order_number']); ?></strong> cancelled</div>
+                                    <span class="activity-badge <?php echo $badge_class; ?>">CANCELLED</span>
+                                
+                                <?php endif; ?>
+                            </div>
+                            <div class="activity-time"><?php echo $act['time_ago']; ?></div>
+                        </div>
+                    <?php endforeach; endif; ?>
                 </div>
             </div>
 
@@ -312,23 +381,79 @@ body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial
 // Fetch monthly sales (6 months) and render chart
 function loadRevenue(months=6){
     fetch('get_monthly_sales.php?months='+months)
-    .then(r=>r.json()).then(d=>{
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        if(window.revenueChart) window.revenueChart.destroy();
-        window.revenueChart = new Chart(ctx,{
-            type:'line',
-            data:{labels:d.labels, datasets:[{label:'Revenue', data:d.data, borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.12)', fill:true, tension:0.3}]},
-            options:{scales:{y:{beginAtZero:true}}, plugins:{legend:{display:false}}}
-        });
-    }).catch(console.error);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text(); // Get raw text first
+    })
+    .then(text => {
+        console.log('Raw API response:', text); // Debug log
+        try {
+            const d = JSON.parse(text);
+            console.log('Parsed JSON:', d); // Debug log
+            
+            const ctx = document.getElementById('revenueChart');
+            if(!ctx) {
+                console.error('Canvas element not found');
+                return;
+            }
+            
+            const ctxObj = ctx.getContext('2d');
+            
+            // Properly destroy existing chart instance
+            if(window.revenueChart && typeof window.revenueChart.destroy === 'function') {
+                try {
+                    window.revenueChart.destroy();
+                } catch(err) {
+                    console.warn('Could not destroy previous chart:', err);
+                }
+            }
+            
+            window.revenueChart = new Chart(ctxObj, {
+                type:'line',
+                data:{
+                    labels: d.labels || [], 
+                    datasets:[{
+                        label:'Revenue', 
+                        data: d.data || [], 
+                        borderColor:'#ef4444', 
+                        backgroundColor:'rgba(239,68,68,0.12)', 
+                        fill:true, 
+                        tension:0.3
+                    }]
+                },
+                options:{
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales:{y:{beginAtZero:true}}, 
+                    plugins:{legend:{display:false}}
+                }
+            });
+        } catch(e) {
+            console.error('JSON parse error:', e);
+            console.error('Failed to parse:', text);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
 }
 
-document.getElementById('btn-weekly').addEventListener('click', ()=>{loadRevenue(6);});
-document.getElementById('btn-monthly').addEventListener('click', ()=>{loadRevenue(12);});
-document.getElementById('btn-daily').addEventListener('click', ()=>{loadRevenue(1);});
-
-// init
-loadRevenue(6);
+// Wait for DOM and Chart.js to load
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners
+    const btnWeekly = document.getElementById('btn-weekly');
+    const btnMonthly = document.getElementById('btn-monthly');
+    const btnDaily = document.getElementById('btn-daily');
+    
+    if(btnWeekly) btnWeekly.addEventListener('click', () => {loadRevenue(6);});
+    if(btnMonthly) btnMonthly.addEventListener('click', () => {loadRevenue(12);});
+    if(btnDaily) btnDaily.addEventListener('click', () => {loadRevenue(1);});
+    
+    // Initialize chart
+    loadRevenue(6);
+});
 </script>
 
 <script>
@@ -338,6 +463,18 @@ document.addEventListener('DOMContentLoaded', function(){
     if (typeof bootstrap !== 'undefined') {
         var tipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         tipTriggerList.map(function (el) { return new bootstrap.Tooltip(el) })
+    }
+
+    // Activity feed refresh
+    var activityRefresh = document.getElementById('activity-refresh');
+    if(activityRefresh) {
+        activityRefresh.addEventListener('click', function(){
+            var icon = this.querySelector('i');
+            icon.classList.add('fa-spin');
+            setTimeout(function(){
+                location.reload();
+            }, 300);
+        });
     }
 
     // copy to clipboard
@@ -395,4 +532,15 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 });
+
+// Add spin animation to refresh icon
+var style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    .fa-spin { animation: spin 0.6s linear !important; }
+`;
+document.head.appendChild(style);
 </script>

@@ -3,8 +3,15 @@ require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/admin.php';
 
+// Ensure user is logged in and is admin
+if (!isset($_SESSION['user_id'])) {
+    header('Content-Type: application/json');
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
 requireAdmin();
-checkSessionTimeout();
 
 header('Content-Type: application/json');
 

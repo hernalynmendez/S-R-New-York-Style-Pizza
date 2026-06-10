@@ -48,7 +48,6 @@ $activeScript = basename($_SERVER['SCRIPT_NAME']);
                     <li class="nav-item"><a class="nav-link <?php echo in_array($activeScript,['manage_orders.php','view_order.php','edit_order.php']) ? 'active' : ''; ?>" href="<?php echo SITE_URL; ?>admin/manage_orders.php">Orders</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo in_array($activeScript,['manage_food.php','add_food.php','edit_food.php']) ? 'active' : ''; ?>" href="<?php echo SITE_URL; ?>admin/manage_food.php">Menu</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo in_array($activeScript,['manage_categories.php','edit_category.php']) ? 'active' : ''; ?>" href="<?php echo SITE_URL; ?>admin/manage_categories.php">Inventory</a></li>
-                    <li class="nav-item"><a class="nav-link <?php echo $activeScript==='dashboard.php' ? 'active' : ''; ?>" href="<?php echo SITE_URL; ?>admin/dashboard.php">Analytics</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo in_array($activeScript,['manage_users.php','view_user.php']) ? 'active' : ''; ?>" href="<?php echo SITE_URL; ?>admin/manage_users.php">Users</a></li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo SITE_URL; ?>user/logout.php">Logout</a>
