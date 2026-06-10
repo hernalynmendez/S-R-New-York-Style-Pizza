@@ -165,7 +165,7 @@ INSERT INTO categories (name, description) VALUES
 ('Beverages', 'Refreshing drinks and beverages'),
 ('Appetizers', 'Starters and appetizers');
 
--- Insert sample admin user (password: admin123)
+-- admin user (password: admin123)
 INSERT INTO users (username, email, password, first_name, last_name, is_admin, is_active) VALUES
 ('admin', 'admin@foodsystem.com', '$2y$10$YourHashedPasswordHere', 'Admin', 'User', TRUE, TRUE);
 
